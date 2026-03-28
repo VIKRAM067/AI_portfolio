@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vikram V — AI Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f8f7f4;
+      --surface: #ffffff;
+      --border: #e8e5df;
+      --text: #0f0f0d;
+      --muted: #6b6860;
+      --accent: #0ea5e9;
+      --accent-dim: #e0f2fe;
+      --accent-dark: #0284c7;
+      --mono: 'JetBrains Mono', monospace;
+      --serif: 'DM Serif Display', serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 4rem;
+      background: rgba(248,247,244,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); letter-spacing: 0.05em; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* SECTIONS */
+    section { padding: 6rem 4rem; max-width: 1100px; margin: 0 auto; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding-top: 8rem; position: relative;
+    }
+    .hero-tag { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .hero-name { font-family: var(--serif); font-size: clamp(3.5rem, 8vw, 7rem); line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    .hero-name em { font-style: italic; color: var(--accent); }
+    .hero-desc { font-size: 1.1rem; color: var(--muted); max-width: 540px; line-height: 1.8; margin-bottom: 2.5rem; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 5rem; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      font-family: var(--sans); font-size: 0.875rem; font-weight: 500;
+      border-radius: 2px; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none;
+    }
+    .btn-primary { background: var(--text); color: #fff; }
+    .btn-primary:hover { background: var(--accent); }
+    .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+    .btn-outline:hover { border-color: var(--text); }
+
+    .hero-stats { display: flex; gap: 3rem; padding-top: 2.5rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+    .stat-num { font-family: var(--serif); font-size: 2.4rem; line-height: 1; color: var(--accent); }
+    .stat-label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.3rem; }
+
+    /* SECTION HEADER */
+    .section-header { display: flex; align-items: baseline; gap: 1.25rem; margin-bottom: 3.5rem; }
+    .section-num { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.1em; }
+    .section-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; }
+    .section-line { flex: 1; height: 1px; background: var(--border); margin-left: 1rem; }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .skill-card { background: var(--surface); border: 1px solid var(--border); padding: 1.75rem; transition: border-color 0.2s, box-shadow 0.2s; }
+    .skill-card:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+    .skill-card-label { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag { font-size: 0.78rem; padding: 0.3rem 0.75rem; background: var(--bg); border: 1px solid var(--border); color: var(--text); border-radius: 2px; font-weight: 500; }
+
+    /* PROJECTS */
+    .projects-list { display: flex; flex-direction: column; gap: 2px; }
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border); padding: 2.25rem;
+      display: grid; grid-template-columns: 1fr auto; gap: 1rem;
+      transition: border-color 0.2s; position: relative; overflow: hidden;
+    }
+    .project-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      background: var(--accent); transform: scaleY(0); transform-origin: bottom; transition: transform 0.3s ease;
+    }
+    .project-card:hover::before { transform: scaleY(1); }
+    .project-card:hover { border-color: var(--accent); }
+    .project-num { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .project-name { font-family: var(--serif); font-size: 1.5rem; margin-bottom: 0.75rem; line-height: 1.2; }
+    .project-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.7; max-width: 640px; margin-bottom: 1.25rem; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .stack-tag { font-family: var(--mono); font-size: 0.7rem; padding: 0.25rem 0.6rem; background: var(--accent-dim); color: var(--accent-dark); border-radius: 2px; }
+    .project-link {
+      align-self: start; display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.78rem; font-weight: 500; color: var(--accent); text-decoration: none;
+      white-space: nowrap; padding: 0.5rem 1rem; border: 1px solid var(--accent); transition: background 0.2s, color 0.2s;
+    }
+    .project-link:hover { background: var(--accent); color: #fff; }
+
+    /* EXPERIENCE */
+    .exp-block { background: var(--surface); border: 1px solid var(--border); padding: 2.5rem; display: grid; grid-template-columns: 200px 1fr; gap: 2.5rem; }
+    .exp-meta { border-right: 1px solid var(--border); padding-right: 2rem; }
+    .exp-company { font-family: var(--serif); font-size: 1.4rem; margin-bottom: 0.4rem; }
+    .exp-period { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+    .exp-location { font-size: 0.8rem; color: var(--muted); }
+    .exp-role { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 1rem; }
+    .exp-content p { font-size: 0.9rem; color: var(--muted); line-height: 1.8; }
+    .exp-highlights { display: flex; gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+    .highlight { font-family: var(--mono); font-size: 0.72rem; color: var(--accent-dark); background: var(--accent-dim); padding: 0.35rem 0.75rem; border-radius: 2px; }
+
+    /* EDUCATION */
+    .edu-pub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .edu-card, .pub-card { background: var(--surface); border: 1px solid var(--border); padding: 2rem; }
+    .card-label { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.25rem; }
+    .edu-degree { font-family: var(--serif); font-size: 1.3rem; line-height: 1.2; margin-bottom: 0.5rem; }
+    .edu-school { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.35rem; }
+    .edu-meta { display: flex; gap: 1.5rem; margin-top: 1rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+    .edu-meta span { color: var(--text); font-weight: 500; }
+    .pub-title { font-family: var(--serif); font-size: 1.1rem; line-height: 1.35; margin-bottom: 0.75rem; }
+    .pub-meta { font-size: 0.82rem; color: var(--muted); margin-bottom: 1rem; }
+    .pub-link { font-size: 0.78rem; font-weight: 500; color: var(--accent); text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; }
+    .pub-link:hover { text-decoration: underline; }
+
+    /* FOOTER */
+    footer { background: var(--text); color: #fff; padding: 5rem 4rem; text-align: center; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-title { font-family: var(--serif); font-size: clamp(2rem, 5vw, 4rem); margin-bottom: 0.75rem; }
+    .footer-sub { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 2.5rem; }
+    .footer-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    .footer-link { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.25rem; border: 1px solid rgba(255,255,255,0.15); transition: all 0.2s; }
+    .footer-link:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-copy { margin-top: 3.5rem; font-size: 0.75rem; color: rgba(255,255,255,0.25); font-family: var(--mono); }
+
+    /* SCROLL REVEAL — visible by default, JS adds .hidden then removes it */
+    .reveal { transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.hidden { opacity: 0; transform: translateY(22px); }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: 0.72rem; }
+      section { padding: 4rem 1.5rem; }
+      footer { padding: 4rem 1.5rem; }
+      .exp-block { grid-template-columns: 1fr; }
+      .exp-meta { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 1.5rem; }
+      .edu-pub-grid { grid-template-columns: 1fr; }
+      .project-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">Portfolio</div>
+    <ul class="nav-links">
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-tag">// AI Engineer · Chennai, India</div>
+    <h1 class="hero-name">Vikram <em>V.</em></h1>
+    <p class="hero-desc">
+      Building production-grade RAG systems and LLM-powered applications.
+      Focused on agentic reasoning, hybrid search, and evaluation pipelines
+      that go beyond basic retrieval.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects →</a>
+      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">1.5+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="stat-num">3</div>
+        <div class="stat-label">Production Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">1</div>
+        <div class="stat-label">IEEE Publication</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Skills</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-card-label">ML / AI</div>
+        <div class="skill-tags">
+          <span class="tag">LLMs</span><span class="tag">RAG</span>
+          <span class="tag">Agentic AI</span><span class="tag">LangChain</span>
+          <span class="tag">LangGraph</span><span class="tag">HuggingFace</span>
+          <span class="tag">Transformers</span><span class="tag">Context Engineering</span>
+          <span class="tag">Prompt Engineering</span><span class="tag">RAGAS</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-label">Tools & Frameworks</div>
+        <div class="skill-tags">
+          <span class="tag">FastAPI</span><span class="tag">ChromaDB</span>
+          <span class="tag">sentence-transformers</span><span class="tag">SQLite</span>
+          <span class="tag">Git</span><span class="tag">Jupyter</span><span class="tag">Linux</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-label">Languages</div>
+        <div class="skill-tags">
+          <span class="tag">Python</span><span class="tag">Configura Magic</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-label">Cloud & Deployment</div>
+        <div class="skill-tags">
+          <span class="tag">AWS S3</span><span class="tag">AWS EC2</span><span class="tag">Docker</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-header reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-list">
+
+      <div class="project-card reveal">
+        <div>
+          <div class="project-num">Project 01</div>
+          <div class="project-name">Agentic RAG System</div>
+          <p class="project-desc">
+            A self-correcting LangGraph agent that routes queries intelligently, grades its own answers
+            using a judge LLM, and retries with HyDE when quality falls short. Features hybrid retrieval
+            combining BM25 and dense embeddings fused with RRF, cross-encoder reranking, persistent
+            per-session SQLite memory, and end-to-end evaluation with RAGAS metrics.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span><span class="stack-tag">LangGraph</span>
+            <span class="stack-tag">LangChain</span><span class="stack-tag">Groq LLaMA 3.3 70B</span>
+            <span class="stack-tag">ChromaDB</span><span class="stack-tag">FastAPI</span>
+            <span class="stack-tag">RAGAS</span><span class="stack-tag">SQLite</span>
+          </div>
+        </div>
+        <a href="https://github.com/VIKRAM067/Agentic-RAG" target="_blank" class="project-link">View ↗</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div>
+          <div class="project-num">Project 02</div>
+          <div class="project-name">Sentiment Analysis API</div>
+          <p class="project-desc">
+            Production-grade REST API for sentiment analysis using HuggingFace DistilBERT.
+            Supports both single and batch inference endpoints with Pydantic validation.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span><span class="stack-tag">FastAPI</span>
+            <span class="stack-tag">HuggingFace</span><span class="stack-tag">DistilBERT</span>
+            <span class="stack-tag">Pydantic</span>
+          </div>
+        </div>
+        <a href="https://github.com/VIKRAM067/sentiment_Analyzer" target="_blank" class="project-link">View ↗</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div>
+          <div class="project-num">Project 03</div>
+          <div class="project-name">Flask CI/CD Deployment</div>
+          <p class="project-desc">
+            End-to-end Flask application deployed to the cloud with full DevOps practices.
+            Automated CI/CD pipelines from source to running service with monitoring
+            and cloud integration via Jenkins and AWS.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span><span class="stack-tag">Flask</span>
+            <span class="stack-tag">Docker</span><span class="stack-tag">Jenkins</span><span class="stack-tag">AWS</span>
+          </div>
+        </div>
+        <a href="https://github.com/VIKRAM067/Devops-Cloud---AWS---Flask-" target="_blank" class="project-link">View ↗</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="exp-block reveal">
+      <div class="exp-meta">
+        <div class="exp-company">Riverstone</div>
+        <div class="exp-period">Aug 2024 – Present</div>
+        <div class="exp-location">Chennai, India</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">Software Engineer — CET Developer</div>
+        <p>
+          Developed and enhanced features across multiple CET extensions using Configura Magic
+          and OOP principles to optimize interior modeling workflows. Integrated an AI coding assistant
+          to automate repetitive boilerplate, reducing development cycles. Collaborated directly with
+          clients to gather requirements and deliver customized solutions.
+        </p>
+        <div class="exp-highlights">
+          <span class="highlight">↓ 10% dev cycle time</span>
+          <span class="highlight">↑ 10–15% client retention</span>
+          <span class="highlight">AI-assisted workflow</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-header reveal">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Education & Publications</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="edu-pub-grid">
+      <div class="edu-card reveal">
+        <div class="card-label">Education</div>
+        <div class="edu-degree">B.E. Computer Science</div>
+        <div class="edu-school">Rajalakshmi Engineering College, Chennai</div>
+        <div class="edu-meta">
+          <div>2020 – 2024</div>
+        </div>
+      </div>
+      <div class="pub-card reveal">
+        <div class="card-label">IEEE Publication · Oct 2024</div>
+        <div class="pub-title">CNN-Powered Plant Identification and Knowledge Sharing Platform</div>
+        <div class="pub-meta">Published in IEEE · October 2024</div>
+        <a href="https://ieeexplore.ieee.org/document/10716108" target="_blank" class="pub-link">Read Paper ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER / CONTACT -->
+  <footer id="contact">
+    <div class="footer-inner">
+      <div class="footer-title">Let's build something.</div>
+      <p class="footer-sub">Open to AI Engineer, LLM Engineer, RAG & Generative AI roles.</p>
+      <div class="footer-links">
+        <a href="https://mail.google.com/mail/?view=cm&to=vvikram0678@gmail.com" class="footer-link">✉ vvikram0678@gmail.com</a>
+        <a href="https://www.linkedin.com/in/vikramv2002/" target="_blank" class="footer-link">↗ LinkedIn</a>
+        <a href="https://github.com/VIKRAM067" target="_blank" class="footer-link">↗ GitHub</a>
+       <a class="footer-link" onclick="copyPhone()" style="cursor:pointer;" title="Copy number"> ☎ +91 95662 68035 </a>
+          <script>
+            function copyPhone() {
+              navigator.clipboard.writeText('+919566268035').then(() => {
+                const link = document.querySelector('[onclick="copyPhone()"]');
+                link.textContent = '✅ Copied!';
+                setTimeout(() => link.textContent = '☎ +91 95662 68035 ', 2000);
+              });
+            }
+          </script>
+      </div>
+                
+        <div class="footer-copy">© <span id="year"></span> Vikram V · Built with precision.</div>
+          <script>
+            document.getElementById('year').textContent = new Date().getFullYear();
+          </script>
+        </div>
+  </footer>
+
+  <script>
+    // Add .hidden first (opacity:0), then remove on intersection (fade in)
+    const reveals = document.querySelectorAll('.reveal');
+    reveals.forEach(el => el.classList.add('hidden'));
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.remove('hidden'), i * 80);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    reveals.forEach(el => io.observe(el));
+
+    // Nav highlight
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--text)' : '';
+      });
+    });
+  </script>
+</body>
+</html>
